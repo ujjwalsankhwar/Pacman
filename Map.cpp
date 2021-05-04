@@ -8,8 +8,12 @@
 #include "Map.hpp"
 #include "Game.hpp"
 #include <fstream>
+#include "ECS.hpp"
+#include "Components.h"
 
-Map::Map(){
+extern Manager manager;
+
+Map::Map(int tsize) : tileSize(tsize){
     
 }
 
@@ -25,10 +29,20 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY){
     for(int y=0;y<sizeY;y++){
         for(int x=0;x<sizeX;x++){
             mapFile.get(tile);
-            Game::AddTile(atoi(&tile), x*40, y*40);
+            if(tile == '0'){
+                auto& tcol(manager.addEntity());
+                tcol.addComponent<ColliderComponent>("wall", x*tileSize, y*tileSize, tileSize);
+                tcol.addGroup(Game::groupColliders);
+            }
+            AddTile(atoi(&tile), x*tileSize, y*tileSize);
             mapFile.ignore();
         }
     }
-    
     mapFile.close();
+}
+
+void Map::AddTile(int id, int x, int y){
+    auto& tile(manager.addEntity());
+    tile.addComponent<TileComponent>(x,y,tileSize,tileSize,id);
+    tile.addGroup(Game::groupMap);
 }

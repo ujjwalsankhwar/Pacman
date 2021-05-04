@@ -49,7 +49,7 @@ public:
         animations.emplace("pacLeft",pacLeft);
         animations.emplace("pacDown",pacDown);
         
-        Play("pacRight");
+        Play("pacLeft");
         
         setTex(path);
     }

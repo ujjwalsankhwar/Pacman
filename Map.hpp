@@ -12,12 +12,16 @@
 
 class Map{
 public:
-    Map();
+    Map(int tsize);
     ~Map();
     
-    static void LoadMap(std::string path, int sizeX, int sizeY);
+    void LoadMap(std::string path, int sizeX, int sizeY);
+    void AddTile(int id, int x, int y);
     
 private:
+    const char* mapFilePath;
+    int mapScale;
+    int tileSize;
 };
 
 #endif /* Map_hpp */
