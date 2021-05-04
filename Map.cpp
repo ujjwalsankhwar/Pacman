@@ -13,7 +13,7 @@
 
 extern Manager manager;
 
-Map::Map(int tsize) : tileSize(tsize){
+Map::Map(const char* mapFile, int tsize) : mapFilePath(mapFile), tileSize(tsize){
     
 }
 
@@ -22,27 +22,29 @@ Map::~Map(){
 }
 
 void Map::LoadMap(std::string path, int sizeX, int sizeY){
-    char tile;
+    char c;
     std::fstream mapFile;
     mapFile.open(path);
     
+    int src;
     for(int y=0;y<sizeY;y++){
         for(int x=0;x<sizeX;x++){
-            mapFile.get(tile);
-            if(tile == '0'){
+            mapFile.get(c);
+            if(c == '0'){
                 auto& tcol(manager.addEntity());
                 tcol.addComponent<ColliderComponent>("wall", x*tileSize, y*tileSize, tileSize);
                 tcol.addGroup(Game::groupColliders);
             }
-            AddTile(atoi(&tile), x*tileSize, y*tileSize);
+            src = atoi(&c) * tileSize;
+            AddTile(src, x*tileSize, y*tileSize);
             mapFile.ignore();
         }
     }
     mapFile.close();
 }
 
-void Map::AddTile(int id, int x, int y){
+void Map::AddTile(int src, int xpos, int ypos){
     auto& tile(manager.addEntity());
-    tile.addComponent<TileComponent>(x,y,tileSize,tileSize,id);
+    tile.addComponent<TileComponent>(src, xpos, ypos, tileSize, mapFilePath);
     tile.addGroup(Game::groupMap);
 }

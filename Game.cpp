@@ -42,7 +42,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         }
         isRunning=true;
         
-        map = new Map(25);
+        map = new Map("/Users/ujjwalsankhwar/Desktop/MyGame/images/Map.png",25);
         map->LoadMap("/Users/ujjwalsankhwar/Desktop/MyGame/images/map.txt", 20, 25);
         
         pacman.addComponent<TransformComponent>(452,502);
@@ -82,13 +82,21 @@ void Game::update(){
     manager.update();
 
     if(pacmanPos.x == -24){
-        pacman.getComponent<TransformComponent>().position.x = 524;
+        pacman.getComponent<TransformComponent>().position.x = 522;
+    }
+    if(pacmanPos.x == 524){
+        pacman.getComponent<TransformComponent>().position.x = -22;
+    }
+    if(pacmanPos.y == -24){
+        pacman.getComponent<TransformComponent>().position.y = 572;
+    }
+    if(pacmanPos.y == 574){
+        pacman.getComponent<TransformComponent>().position.y = -22;
     }
     
     for(auto c : colliders){
         SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
         if(Collision::AABB(cCol, pacmanCol) == true){
-            
             
             SDL_Rect tmpCol;
             tmpCol.x = pacmanCol.x;
@@ -137,9 +145,6 @@ void Game::render(){
     SDL_RenderClear(renderer);
     for(auto& t : tiles){
         t->draw();
-    }
-    for(auto& c: colliders){
-        c->draw();
     }
     for(auto& p : players){
         p->draw();
