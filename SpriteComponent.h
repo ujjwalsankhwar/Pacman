@@ -36,22 +36,41 @@ public:
         setTex(path);
     }
     
-    SpriteComponent(const char* path, bool isAnimated){
-        animated = isAnimated;
-        
-        Animation pacRight = Animation(0,14,25);
-        Animation pacUp = Animation(14,14,25);
-        Animation pacLeft = Animation(28,14,25);
-        Animation pacDown = Animation(42,14,25);
-        
-        animations.emplace("pacRight",pacRight);
-        animations.emplace("pacUp",pacUp);
-        animations.emplace("pacLeft",pacLeft);
-        animations.emplace("pacDown",pacDown);
-        
-        Play("pacLeft");
-        
-        setTex(path);
+    SpriteComponent(const char* path, int id, bool isAnimated){
+        if(id == 0){
+            animated = isAnimated;
+            
+            Animation pacRight = Animation(0,14,25);
+            Animation pacUp = Animation(14,14,25);
+            Animation pacLeft = Animation(28,14,25);
+            Animation pacDown = Animation(42,14,25);
+            
+            animations.emplace("Right",pacRight);
+            animations.emplace("Up",pacUp);
+            animations.emplace("Left",pacLeft);
+            animations.emplace("Down",pacDown);
+            
+            Play("Left");
+            
+            setTex(path);
+        }
+        if(id == 1){
+            animated = isAnimated;
+            
+            Animation blinkyUp = Animation(0,2,25);
+            Animation blinkyDown = Animation(2,2,25);
+            Animation blinkyRight = Animation(4,2,25);
+            Animation blinkyLeft = Animation(6,2,25);
+            
+            animations.emplace("Up",blinkyUp);
+            animations.emplace("Down",blinkyDown);
+            animations.emplace("Right",blinkyRight);
+            animations.emplace("Left",blinkyLeft);
+            
+            Play("Up");
+            
+            setTex(path);
+        }
     }
     
     ~SpriteComponent(){

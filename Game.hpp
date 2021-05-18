@@ -37,7 +37,7 @@ public:
     enum groupLabels : std::size_t{
         groupMap,
         groupPacman,
-        groupEnemies,
+        groupBlinky,
         groupColliders
     };
 private:
