@@ -25,24 +25,52 @@ public:
         if(Game::event.type == SDL_KEYDOWN){
             switch (Game::event.key.keysym.sym){
                 case SDLK_w:
+                    if(transform->id==1){
+                        transform->velocity.y = -1;
+                        sprite->Play("blinkyUp");
+                    }
+                    break;
                 case SDLK_UP:
-                    transform->velocity.y = -1;
-                    sprite->Play("Up");
+                    if(transform->id==0){
+                        transform->velocity.y = -1;
+                        sprite->Play("pacUp");
+                    }
                     break;
                 case SDLK_a:
+                    if(transform->id==1){
+                        transform->velocity.x = -1;
+                        sprite->Play("blinkyLeft");
+                    }
+                    break;
                 case SDLK_LEFT:
-                    transform->velocity.x = -1;
-                    sprite->Play("Left");
+                    if(transform->id==0){
+                        transform->velocity.x = -1;
+                        sprite->Play("pacLeft");
+                    }
                     break;
                 case SDLK_d:
+                    if(transform->id==1){
+                        transform->velocity.x = 1;
+                        sprite->Play("blinkyRight");
+                    }
+                    break;
                 case SDLK_RIGHT:
-                    transform->velocity.x = 1;
-                    sprite->Play("Right");
+                    if(transform->id==0){
+                        transform->velocity.x = 1;
+                        sprite->Play("pacRight");
+                    }
                     break;
                 case SDLK_s:
+                    if(transform->id==1){
+                        transform->velocity.y = 1;
+                        sprite->Play("blinkyDown");
+                    }
+                    break;
                 case SDLK_DOWN:
-                    transform->velocity.y = 1;
-                    sprite->Play("Down");
+                    if(transform->id==0){
+                        transform->velocity.y = 1;
+                        sprite->Play("pacDown");
+                    }
                     break;
                 case SDLK_ESCAPE:
                     Game::isRunning = false;

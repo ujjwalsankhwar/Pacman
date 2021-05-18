@@ -13,6 +13,7 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 
+class AssetManager;
 class ColliderComponent;
 
 class Game{
@@ -30,9 +31,15 @@ public:
         return isRunning;
     }
     
+    bool pause(){
+        return isPause;
+    }
+    
     static SDL_Renderer *renderer;
     static SDL_Event event;
+    static AssetManager* assets;
     static bool isRunning;
+    static bool isPause;
     
     enum groupLabels : std::size_t{
         groupMap,

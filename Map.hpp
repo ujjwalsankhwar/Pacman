@@ -12,14 +12,14 @@
 
 class Map{
 public:
-    Map(const char* mapFile, int tsize);
+    Map(std:: string tID, int tsize);
     ~Map();
     
     void LoadMap(std::string path, int sizeX, int sizeY);
     void AddTile(int src, int xpos, int ypos);
     
 private:
-    const char* mapFilePath;
+    std::string texID;
     int tileSize;
 };
 

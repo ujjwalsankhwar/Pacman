@@ -13,6 +13,7 @@
 #include "TextureManager.hpp"
 #include "Animation.h"
 #include <map>
+#include "AssetManager.hpp"
 
 class SpriteComponent : public Component{
 private:
@@ -36,8 +37,8 @@ public:
         setTex(path);
     }
     
-    SpriteComponent(const char* path, int id, bool isAnimated){
-        if(id == 0){
+    SpriteComponent(std::string id, bool isAnimated){
+        if(id == "pacman"){
             animated = isAnimated;
             
             Animation pacRight = Animation(0,14,25);
@@ -45,16 +46,16 @@ public:
             Animation pacLeft = Animation(28,14,25);
             Animation pacDown = Animation(42,14,25);
             
-            animations.emplace("Right",pacRight);
-            animations.emplace("Up",pacUp);
-            animations.emplace("Left",pacLeft);
-            animations.emplace("Down",pacDown);
+            animations.emplace("pacRight",pacRight);
+            animations.emplace("pacUp",pacUp);
+            animations.emplace("pacLeft",pacLeft);
+            animations.emplace("pacDown",pacDown);
             
-            Play("Left");
+            Play("pacLeft");
             
-            setTex(path);
+            setTex(id);
         }
-        if(id == 1){
+        if(id == "blinky"){
             animated = isAnimated;
             
             Animation blinkyUp = Animation(0,2,25);
@@ -62,14 +63,14 @@ public:
             Animation blinkyRight = Animation(4,2,25);
             Animation blinkyLeft = Animation(6,2,25);
             
-            animations.emplace("Up",blinkyUp);
-            animations.emplace("Down",blinkyDown);
-            animations.emplace("Right",blinkyRight);
-            animations.emplace("Left",blinkyLeft);
+            animations.emplace("blinkyUp",blinkyUp);
+            animations.emplace("blinkyDown",blinkyDown);
+            animations.emplace("blinkyRight",blinkyRight);
+            animations.emplace("blinkyLeft",blinkyLeft);
             
-            Play("Up");
+            Play("blinkyUp");
             
-            setTex(path);
+            setTex(id);
         }
     }
     
@@ -77,8 +78,8 @@ public:
         SDL_DestroyTexture(texture);
     }
     
-    void setTex(const char* path){
-        texture = TextureManager::LoadTexture(path);
+    void setTex(std::string id){
+        texture = Game::assets->GetTexture(id);
     }
     
     void init() override{
