@@ -19,7 +19,7 @@ public:
     int height = 20;
     int width = 20;
     int scale = 1;
-    
+    int id=0;
     int speed = 2;
     
     
@@ -30,9 +30,10 @@ public:
         position.Zero();
         scale = sc;
     }
-    TransformComponent(float x, float y){
+    TransformComponent(float x, float y, int i){
         position.x=x;
         position.y=y;
+        id=i;
     }
     TransformComponent(float x, float y, int h, int w, int sc){
         position.x=x;
