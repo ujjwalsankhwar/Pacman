@@ -302,7 +302,7 @@ void Game::update(){
     }
     if(isPause==false){
         std::stringstream ss;
-        ss << "Time : " << int((SDL_GetTicks()-reset)/1000);
+        ss << "Score : " << int((SDL_GetTicks()-reset)/1000);
         if(stage==1){
             currScore=int((SDL_GetTicks()-reset)/1000);
             if(currScore==maxPoints){
