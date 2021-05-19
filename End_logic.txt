@@ -1,0 +1,8 @@
+x1-y1+x2 >50	| P | In middle of game
+x1-y1+x2 <0 	| B | Till end
+x1-y1+x2-y2 < 0 | B | In middle of game
+x1-y1+x2-y2 > 0 | P | Till win
+Winning criteria (No. of rounds > 2)
+No baising both player have equal chance to win.
+
+
