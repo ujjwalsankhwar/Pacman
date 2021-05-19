@@ -54,6 +54,11 @@ auto& score(manager.addEntity());
 auto& enter(manager.addEntity());
 auto& result_turn(manager.addEntity());
 
+auto& tiles(manager.getGroup(Game::groupMap));
+auto& players(manager.getGroup(Game::groupPacman));
+auto& enemies(manager.getGroup(Game::groupBlinky));
+auto& colliders(manager.getGroup(Game::groupColliders));
+
 Mix_Chunk* intro;
 Mix_Chunk* intermission;
 Mix_Chunk* death;
@@ -63,7 +68,7 @@ int stage=0;
 int winner=0;
 int netScore=0;
 int currScore=0;
-int maxPoints=50;
+int maxPoints=100;
 int counter=0;
 
 Game::Game(){
@@ -147,15 +152,17 @@ void Game::handleEvents(){
     }
     if(isPause==true && Game::event.type == SDL_KEYDOWN){
         if(stage==0){
+            colliders.clear();
+            tiles.clear();
             netScore = currScore = winner = counter = 0;
-            pacman.getComponent<TransformComponent>().position.x = 452;
-            pacman.getComponent<TransformComponent>().position.y = 502;
-            blinky.getComponent<TransformComponent>().position.x = 252;
-            blinky.getComponent<TransformComponent>().position.y = 252;
             pacman.getComponent<TransformComponent>().velocity.x=0;
             pacman.getComponent<TransformComponent>().velocity.y=0;
             blinky.getComponent<TransformComponent>().velocity.x=0;
             blinky.getComponent<TransformComponent>().velocity.y=0;
+            pacman.getComponent<TransformComponent>().position.x = 452;
+            pacman.getComponent<TransformComponent>().position.y = 502;
+            blinky.getComponent<TransformComponent>().position.x = 252;
+            blinky.getComponent<TransformComponent>().position.y = 252;
             switch (Game::event.key.keysym.sym){
                 case SDLK_1:
                     map = new Map("mapTiles", 25);
@@ -233,20 +240,19 @@ void Game::handleEvents(){
                     Mix_HaltChannel(2);
                     if(winner==0){
                         stage=4;
-                        isPause=false;
-                    }
-                    if(winner!=0){
-                        netScore = currScore = winner = counter = 0;
-                        pacman.getComponent<TransformComponent>().position.x = 452;
-                        pacman.getComponent<TransformComponent>().position.y = 502;
-                        blinky.getComponent<TransformComponent>().position.x = 252;
-                        blinky.getComponent<TransformComponent>().position.y = 252;
                         pacman.getComponent<TransformComponent>().velocity.x=0;
                         pacman.getComponent<TransformComponent>().velocity.y=0;
                         blinky.getComponent<TransformComponent>().velocity.x=0;
                         blinky.getComponent<TransformComponent>().velocity.y=0;
+                        isPause=false;
+                    }
+                    if(winner!=0){
                         stage=0;
                         isPause=true;
+                        pacman.getComponent<TransformComponent>().velocity.x=0;
+                        pacman.getComponent<TransformComponent>().velocity.y=0;
+                        blinky.getComponent<TransformComponent>().velocity.x=0;
+                        blinky.getComponent<TransformComponent>().velocity.y=0;
                         Mix_PlayChannel(0, intro, -1);
                     }
                     break;
@@ -257,16 +263,11 @@ void Game::handleEvents(){
         else if(stage==4){
             switch (Game::event.key.keysym.sym){
                 case SDLK_RETURN:
-                    netScore = currScore = winner = counter = 0;
-                    pacman.getComponent<TransformComponent>().position.x = 452;
-                    pacman.getComponent<TransformComponent>().position.y = 502;
-                    blinky.getComponent<TransformComponent>().position.x = 252;
-                    blinky.getComponent<TransformComponent>().position.y = 252;
+                    stage=0;
                     pacman.getComponent<TransformComponent>().velocity.x=0;
                     pacman.getComponent<TransformComponent>().velocity.y=0;
                     blinky.getComponent<TransformComponent>().velocity.x=0;
                     blinky.getComponent<TransformComponent>().velocity.y=0;
-                    stage=0;
                     isPause=true;
                     Mix_HaltChannel(2);
                     Mix_PlayChannel(0, intro, -1);
@@ -277,11 +278,6 @@ void Game::handleEvents(){
         }
     }
 }
-
-auto& tiles(manager.getGroup(Game::groupMap));
-auto& players(manager.getGroup(Game::groupPacman));
-auto& enemies(manager.getGroup(Game::groupBlinky));
-auto& colliders(manager.getGroup(Game::groupColliders));
 
 void Game::update(){
     
@@ -310,7 +306,6 @@ void Game::update(){
             ss << "Pacman Score : " << currScore;
             score.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
             if(counter==0){
-                std::cout<<"123"<<std::endl;
                 netScore=netScore+currScore;
                 if(netScore<0){
                     winner=2;
@@ -338,14 +333,14 @@ void Game::update(){
         if(stage==1){
             currScore=int((SDL_GetTicks()-reset)/1000);
             if(currScore==maxPoints){
-                blinky.getComponent<TransformComponent>().position.x = 452;
-                blinky.getComponent<TransformComponent>().position.y = 502;
-                pacman.getComponent<TransformComponent>().position.x = 252;
-                pacman.getComponent<TransformComponent>().position.y = 252;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
                 pacman.getComponent<TransformComponent>().velocity.y=0;
                 blinky.getComponent<TransformComponent>().velocity.x=0;
                 blinky.getComponent<TransformComponent>().velocity.y=0;
+                blinky.getComponent<TransformComponent>().position.x = 452;
+                blinky.getComponent<TransformComponent>().position.y = 502;
+                pacman.getComponent<TransformComponent>().position.x = 252;
+                pacman.getComponent<TransformComponent>().position.y = 252;
                 isPause = true;
                 Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
             }
@@ -353,14 +348,14 @@ void Game::update(){
         if(stage==2){
             currScore=int((SDL_GetTicks()-reset)/1000);
             if(currScore==maxPoints){
-                blinky.getComponent<TransformComponent>().position.x = 452;
-                blinky.getComponent<TransformComponent>().position.y = 502;
-                pacman.getComponent<TransformComponent>().position.x = 252;
-                pacman.getComponent<TransformComponent>().position.y = 252;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
                 pacman.getComponent<TransformComponent>().velocity.y=0;
                 blinky.getComponent<TransformComponent>().velocity.x=0;
                 blinky.getComponent<TransformComponent>().velocity.y=0;
+                blinky.getComponent<TransformComponent>().position.x = 452;
+                blinky.getComponent<TransformComponent>().position.y = 502;
+                pacman.getComponent<TransformComponent>().position.x = 252;
+                pacman.getComponent<TransformComponent>().position.y = 252;
                 isPause = true;
                 Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
             }
@@ -380,26 +375,26 @@ void Game::update(){
             if(netScore+currScore>maxPoints){
                 winner=1;
                 result_turn.getComponent<UILabel>().SetLabelText("Pacman Wins", "arial");
-                pacman.getComponent<TransformComponent>().position.x = 452;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
-                pacman.getComponent<TransformComponent>().position.y = 502;
                 pacman.getComponent<TransformComponent>().velocity.y=0;
-                blinky.getComponent<TransformComponent>().position.x = 252;
                 blinky.getComponent<TransformComponent>().velocity.x=0;
-                blinky.getComponent<TransformComponent>().position.y = 252;
                 blinky.getComponent<TransformComponent>().velocity.y=0;
+                pacman.getComponent<TransformComponent>().position.x = 452;
+                pacman.getComponent<TransformComponent>().position.y = 502;
+                blinky.getComponent<TransformComponent>().position.x = 252;
+                blinky.getComponent<TransformComponent>().position.y = 252;
                 isPause = true;
                 Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
             }
             if(currScore==maxPoints){
-                pacman.getComponent<TransformComponent>().position.x = 452;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
-                pacman.getComponent<TransformComponent>().position.y = 502;
                 pacman.getComponent<TransformComponent>().velocity.y=0;
-                blinky.getComponent<TransformComponent>().position.x = 252;
                 blinky.getComponent<TransformComponent>().velocity.x=0;
-                blinky.getComponent<TransformComponent>().position.y = 252;
                 blinky.getComponent<TransformComponent>().velocity.y=0;
+                pacman.getComponent<TransformComponent>().position.x = 452;
+                pacman.getComponent<TransformComponent>().position.y = 502;
+                blinky.getComponent<TransformComponent>().position.x = 252;
+                blinky.getComponent<TransformComponent>().position.y = 252;
                 isPause = true;
                 Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
             }
@@ -408,28 +403,28 @@ void Game::update(){
             currScore=int((SDL_GetTicks()-reset)/1000);
             toBeat.getComponent<UILabel>().SetLabelText("To Beat : "+std::to_string(netScore), "comic");
             if(currScore==maxPoints){
-                pacman.getComponent<TransformComponent>().position.x = 452;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
-                pacman.getComponent<TransformComponent>().position.y = 502;
                 pacman.getComponent<TransformComponent>().velocity.y=0;
-                blinky.getComponent<TransformComponent>().position.x = 252;
                 blinky.getComponent<TransformComponent>().velocity.x=0;
-                blinky.getComponent<TransformComponent>().position.y = 252;
                 blinky.getComponent<TransformComponent>().velocity.y=0;
+                pacman.getComponent<TransformComponent>().position.x = 452;
+                pacman.getComponent<TransformComponent>().position.y = 502;
+                blinky.getComponent<TransformComponent>().position.x = 252;
+                blinky.getComponent<TransformComponent>().position.y = 252;
                 isPause = true;
                 Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
             }
             else if(currScore>netScore){
                 winner=2;
                 result_turn.getComponent<UILabel>().SetLabelText("Blinky Wins", "arial");
-                pacman.getComponent<TransformComponent>().position.x = 452;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
-                pacman.getComponent<TransformComponent>().position.y = 502;
                 pacman.getComponent<TransformComponent>().velocity.y=0;
-                blinky.getComponent<TransformComponent>().position.x = 252;
                 blinky.getComponent<TransformComponent>().velocity.x=0;
-                blinky.getComponent<TransformComponent>().position.y = 252;
                 blinky.getComponent<TransformComponent>().velocity.y=0;
+                pacman.getComponent<TransformComponent>().position.x = 452;
+                pacman.getComponent<TransformComponent>().position.y = 502;
+                blinky.getComponent<TransformComponent>().position.x = 252;
+                blinky.getComponent<TransformComponent>().position.y = 252;
                 isPause=true;
                 Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
             }
@@ -467,6 +462,11 @@ void Game::update(){
     }
     
     if(Collision::AABB(blinkyCol, pacmanCol) == true){
+        
+        pacman.getComponent<TransformComponent>().velocity.x=0;
+        pacman.getComponent<TransformComponent>().velocity.y=0;
+        blinky.getComponent<TransformComponent>().velocity.x=0;
+        blinky.getComponent<TransformComponent>().velocity.y=0;
         if(stage==3 || stage==4){
             pacman.getComponent<TransformComponent>().position.x = 452;
             pacman.getComponent<TransformComponent>().position.y = 502;
@@ -479,10 +479,6 @@ void Game::update(){
             pacman.getComponent<TransformComponent>().position.x = 252;
             pacman.getComponent<TransformComponent>().position.y = 252;
         }
-        pacman.getComponent<TransformComponent>().velocity.x=0;
-        pacman.getComponent<TransformComponent>().velocity.y=0;
-        blinky.getComponent<TransformComponent>().velocity.x=0;
-        blinky.getComponent<TransformComponent>().velocity.y=0;
         isPause = true;
         Mix_PlayChannel(1, death, 0);
         Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
@@ -614,6 +610,9 @@ void Game::render(){
     if(isPause==false){
         for(auto& t : tiles){
             t->draw();
+        }
+        for(auto& c : colliders){
+            c->draw();
         }
         for(auto& p : players){
             p->draw();
