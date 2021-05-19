@@ -2,7 +2,6 @@
 //  Game.cpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 29/04/21.
 //
 
 #include "Game.hpp"
@@ -61,10 +60,10 @@ Mix_Chunk* death;
 
 Uint32 reset=0;
 int stage=0;
-int midWinner=0;
+int winner=0;
 int netScore=0;
 int currScore=0;
-int maxPoints=20;
+int maxPoints=2;
 int counter=0;
 
 Game::Game(){
@@ -120,17 +119,20 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     blinky.addGroup(groupBlinky);
     
     SDL_Color white = {255,255,255,255};
-    timer.addComponent<UILabel>(25, 548, "test", "comic", white);
-    toBeat.addComponent<UILabel>(300, 548, "test", "comic", white);
-    map1.addComponent<UILabel>(160,200,"Press 1 for Map 1","arial",white);
-    map2.addComponent<UILabel>(160,235,"Press 2 for Map 2","arial",white);
-    map3.addComponent<UILabel>(160,270,"Press 3 for Map 3","arial",white);
-    map4.addComponent<UILabel>(160,305,"Press 4 for Map 4","arial",white);
-    map5.addComponent<UILabel>(160,340,"Press 5 for Map 5","arial",white);
-    playFirst.addComponent<UILabel>(155,385,"Pacman Turn First","arial",white);
-    score.addComponent<UILabel>(160,245,"test","arial",white);
-    result_turn.addComponent<UILabel>(185,290,"test","arial",white);
-    enter.addComponent<UILabel>(187,355,"Press Enter","arial",white);
+    SDL_Color red = {255,0,0,0};
+    SDL_Color green = {0,255,0,0};
+    SDL_Color blue = {0,0,255,0};
+    timer.addComponent<UILabel>(25, 548, "test", "comic", green);
+    toBeat.addComponent<UILabel>(300, 548, "test", "comic", red);
+    map1.addComponent<UILabel>(250,270,"Press 1 for Map 1","arial",red);
+    map2.addComponent<UILabel>(250,305,"Press 2 for Map 2","arial",green);
+    map3.addComponent<UILabel>(250,340,"Press 3 for Map 3","arial",blue);
+    map4.addComponent<UILabel>(250,375,"Press 4 for Map 4","arial",green);
+    map5.addComponent<UILabel>(250,410,"Press 5 for Map 5","arial",red);
+    playFirst.addComponent<UILabel>(245,455,"Pacman Turn First","arial",white);
+    score.addComponent<UILabel>(250,315,"test","arial",green);
+    result_turn.addComponent<UILabel>(275,360,"test","arial",red);
+    enter.addComponent<UILabel>(277,425,"Press Enter","arial",white);
 }
 
 void Game::handleEvents(){
@@ -145,11 +147,6 @@ void Game::handleEvents(){
     }
     if(isPause==true && Game::event.type == SDL_KEYDOWN){
         if(stage==0){
-            netScore = currScore = midWinner = counter = 0;
-            pacman.getComponent<TransformComponent>().position.x = 452;
-            pacman.getComponent<TransformComponent>().position.y = 502;
-            blinky.getComponent<TransformComponent>().position.x = 252;
-            blinky.getComponent<TransformComponent>().position.y = 252;
             switch (Game::event.key.keysym.sym){
                 case SDLK_1:
                     map = new Map("mapTiles", 25);
@@ -214,21 +211,19 @@ void Game::handleEvents(){
             }
         }
         else if(stage==3){
-            if(counter==0){
-                netScore=netScore+currScore;
-                if(netScore<0){
-                    midWinner=2;
-                }
-                counter++;
-            }
             switch (Game::event.key.keysym.sym){
                 case SDLK_RETURN:
                     Mix_HaltChannel(2);
-                    if(midWinner==0){
+                    if(winner==0){
                         stage=4;
                         isPause=false;
                     }
-                    if(midWinner!=0){
+                    if(winner!=0){
+                        netScore = currScore = winner = counter = 0;
+                        pacman.getComponent<TransformComponent>().position.x = 452;
+                        pacman.getComponent<TransformComponent>().position.y = 502;
+                        blinky.getComponent<TransformComponent>().position.x = 252;
+                        blinky.getComponent<TransformComponent>().position.y = 252;
                         stage=0;
                         isPause=true;
                         Mix_PlayChannel(0, intro, -1);
@@ -241,6 +236,11 @@ void Game::handleEvents(){
         else if(stage==4){
             switch (Game::event.key.keysym.sym){
                 case SDLK_RETURN:
+                    netScore = currScore = winner = counter = 0;
+                    pacman.getComponent<TransformComponent>().position.x = 452;
+                    pacman.getComponent<TransformComponent>().position.y = 502;
+                    blinky.getComponent<TransformComponent>().position.x = 252;
+                    blinky.getComponent<TransformComponent>().position.y = 252;
                     stage=0;
                     isPause=true;
                     Mix_HaltChannel(2);
@@ -284,17 +284,25 @@ void Game::update(){
         if(stage==3){
             ss << "Pacman Score : " << currScore;
             score.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
-            if(netScore<0){
-                result_turn.getComponent<UILabel>().SetLabelText("Blinky Wins", "arial");
+            if(counter==0){
+                std::cout<<"123"<<std::endl;
+                netScore=netScore+currScore;
+                if(netScore<0){
+                    winner=2;
+                    result_turn.getComponent<UILabel>().SetLabelText("Blinky Wins", "arial");
+                }
+                counter++;
             }
         }
         if(stage==4){
             ss << "Blinky Score : " << currScore;
             score.getComponent<UILabel>().SetLabelText(ss.str(), "arial");
             if(currScore==netScore){
+                winner=0;
                 result_turn.getComponent<UILabel>().SetLabelText("Match Tied", "arial");
             }
             else if(currScore<netScore){
+                winner=1;
                 result_turn.getComponent<UILabel>().SetLabelText("Pacman Wins", "arial");
             }
         }
@@ -345,7 +353,7 @@ void Game::update(){
             }
             result_turn.getComponent<UILabel>().SetLabelText("Blinky Turn", "arial");
             if(netScore+currScore>maxPoints){
-                midWinner=1;
+                winner=1;
                 result_turn.getComponent<UILabel>().SetLabelText("Pacman Wins", "arial");
                 pacman.getComponent<TransformComponent>().position.x = 452;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
@@ -387,7 +395,7 @@ void Game::update(){
                 Mix_PlayChannelTimed(2, intermission, -1, SDL_GetTicks()+2000);
             }
             else if(currScore>netScore){
-                midWinner=2;
+                winner=2;
                 result_turn.getComponent<UILabel>().SetLabelText("Blinky Wins", "arial");
                 pacman.getComponent<TransformComponent>().position.x = 452;
                 pacman.getComponent<TransformComponent>().velocity.x=0;
@@ -548,8 +556,22 @@ void Game::update(){
 void Game::render(){
     SDL_RenderClear(renderer);
     if(isPause==true){
-        SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Background.bmp");
-        SDL_RenderCopy(renderer, tex, NULL, NULL);
+        if(winner==1){
+            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Pacman_Won.png");
+            SDL_RenderCopy(renderer, tex, NULL, NULL);
+        }
+        else if(winner==2){
+            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Blinky_Won.jpg");
+            SDL_RenderCopy(renderer, tex, NULL, NULL);
+        }
+        else if(stage==4){
+            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Draw_Match.png");
+            SDL_RenderCopy(renderer, tex, NULL, NULL);
+        }
+        else{
+            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Background.jpg");
+            SDL_RenderCopy(renderer, tex, NULL, NULL);
+        }
         if(stage==0){
             map1.draw();
             map2.draw();
