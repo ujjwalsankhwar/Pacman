@@ -12,7 +12,6 @@
 #include "Vector2D.hpp"
 #include "Collision.hpp"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_net.h>
 #include <SDL2/SDL_mixer.h>
 #include <vector>
 #include "AssetManager.hpp"
