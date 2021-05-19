@@ -63,7 +63,7 @@ int stage=0;
 int winner=0;
 int netScore=0;
 int currScore=0;
-int maxPoints=2;
+int maxPoints=100;
 int counter=0;
 
 Game::Game(){
@@ -147,6 +147,15 @@ void Game::handleEvents(){
     }
     if(isPause==true && Game::event.type == SDL_KEYDOWN){
         if(stage==0){
+            netScore = currScore = winner = counter = 0;
+            pacman.getComponent<TransformComponent>().position.x = 452;
+            pacman.getComponent<TransformComponent>().position.y = 502;
+            blinky.getComponent<TransformComponent>().position.x = 252;
+            blinky.getComponent<TransformComponent>().position.y = 252;
+            pacman.getComponent<TransformComponent>().velocity.x=0;
+            pacman.getComponent<TransformComponent>().velocity.y=0;
+            blinky.getComponent<TransformComponent>().velocity.x=0;
+            blinky.getComponent<TransformComponent>().velocity.y=0;
             switch (Game::event.key.keysym.sym){
                 case SDLK_1:
                     map = new Map("mapTiles", 25);
@@ -191,6 +200,10 @@ void Game::handleEvents(){
             switch (Game::event.key.keysym.sym){
                 case SDLK_RETURN:
                     stage=2;
+                    pacman.getComponent<TransformComponent>().velocity.x=0;
+                    pacman.getComponent<TransformComponent>().velocity.y=0;
+                    blinky.getComponent<TransformComponent>().velocity.x=0;
+                    blinky.getComponent<TransformComponent>().velocity.y=0;
                     isPause=false;
                     Mix_HaltChannel(2);
                     break;
@@ -203,6 +216,10 @@ void Game::handleEvents(){
                 case SDLK_RETURN:
                     netScore=netScore-currScore;
                     stage=3;
+                    pacman.getComponent<TransformComponent>().velocity.x=0;
+                    pacman.getComponent<TransformComponent>().velocity.y=0;
+                    blinky.getComponent<TransformComponent>().velocity.x=0;
+                    blinky.getComponent<TransformComponent>().velocity.y=0;
                     isPause=false;
                     Mix_HaltChannel(2);
                     break;
@@ -224,6 +241,10 @@ void Game::handleEvents(){
                         pacman.getComponent<TransformComponent>().position.y = 502;
                         blinky.getComponent<TransformComponent>().position.x = 252;
                         blinky.getComponent<TransformComponent>().position.y = 252;
+                        pacman.getComponent<TransformComponent>().velocity.x=0;
+                        pacman.getComponent<TransformComponent>().velocity.y=0;
+                        blinky.getComponent<TransformComponent>().velocity.x=0;
+                        blinky.getComponent<TransformComponent>().velocity.y=0;
                         stage=0;
                         isPause=true;
                         Mix_PlayChannel(0, intro, -1);
@@ -241,6 +262,10 @@ void Game::handleEvents(){
                     pacman.getComponent<TransformComponent>().position.y = 502;
                     blinky.getComponent<TransformComponent>().position.x = 252;
                     blinky.getComponent<TransformComponent>().position.y = 252;
+                    pacman.getComponent<TransformComponent>().velocity.x=0;
+                    pacman.getComponent<TransformComponent>().velocity.y=0;
+                    blinky.getComponent<TransformComponent>().velocity.x=0;
+                    blinky.getComponent<TransformComponent>().velocity.y=0;
                     stage=0;
                     isPause=true;
                     Mix_HaltChannel(2);
