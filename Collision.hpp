@@ -2,7 +2,6 @@
 //  Collision.hpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 30/04/21.
 //
 
 #ifndef Collision_hpp

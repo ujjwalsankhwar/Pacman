@@ -2,7 +2,6 @@
 //  AssetManager.cpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 18/05/21.
 //
 
 #include "AssetManager.hpp"

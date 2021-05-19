@@ -63,7 +63,7 @@ int stage=0;
 int winner=0;
 int netScore=0;
 int currScore=0;
-int maxPoints=100;
+int maxPoints=50;
 int counter=0;
 
 Game::Game(){
@@ -95,16 +95,16 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         std::cout<<"Error : SDL_Mixer"<<std::endl;
     }
     
-    intro = Mix_LoadWAV("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/intro.wav");
-    intermission = Mix_LoadWAV("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/intermission.wav");
-    death = Mix_LoadWAV("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/death.wav");
+    intro = Mix_LoadWAV("Resources/intro.wav");
+    intermission = Mix_LoadWAV("Resources/intermission.wav");
+    death = Mix_LoadWAV("Resources/death.wav");
     Mix_PlayChannel(0, intro, -1);
     
-    assets->AddTexture("mapTiles", "/Users/ujjwalsankhwar/Desktop/MyGame/Resources/map.png");
-    assets->AddTexture("pacman", "/Users/ujjwalsankhwar/Desktop/MyGame/Resources/pacman.png");
-    assets->AddTexture("blinky", "/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Blinky.png");
-    assets->AddFont("comic", "/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Comic Sans MS.ttf", 20);
-    assets->AddFont("arial", "/Users/ujjwalsankhwar/Desktop/MyGame/Resources/arial.ttf", 25);
+    assets->AddTexture("mapTiles", "Resources/map.png");
+    assets->AddTexture("pacman", "Resources/pacman.png");
+    assets->AddTexture("blinky", "Resources/Blinky.png");
+    assets->AddFont("comic", "Resources/Comic Sans MS.ttf", 20);
+    assets->AddFont("arial", "Resources/arial.ttf", 25);
     
     pacman.addComponent<TransformComponent>(452,502,0);
     pacman.addComponent<SpriteComponent>("pacman", true);
@@ -159,35 +159,35 @@ void Game::handleEvents(){
             switch (Game::event.key.keysym.sym){
                 case SDLK_1:
                     map = new Map("mapTiles", 25);
-                    map->LoadMap("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/map.txt", 20, 25);
+                    map->LoadMap("Resources/map.txt", 20, 25);
                     isPause=false;
                     stage=stage+1;
                     Mix_HaltChannel(0);
                     break;
                 case SDLK_2:
                     map = new Map("mapTiles", 25);
-                    map->LoadMap("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/map_2.txt", 20, 25);
+                    map->LoadMap("Resources/map_2.txt", 20, 25);
                     isPause=false;
                     stage=stage+1;
                     Mix_HaltChannel(0);
                     break;
                 case SDLK_3:
                     map = new Map("mapTiles", 25);
-                    map->LoadMap("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/map_3.txt", 20, 25);
+                    map->LoadMap("Resources/map_3.txt", 20, 25);
                     isPause=false;
                     stage=stage+1;
                     Mix_HaltChannel(0);
                     break;
                 case SDLK_4:
                     map = new Map("mapTiles", 25);
-                    map->LoadMap("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/map_4.txt", 20, 25);
+                    map->LoadMap("Resources/map_4.txt", 20, 25);
                     isPause=false;
                     stage=stage+1;
                     Mix_HaltChannel(0);
                     break;
                 case SDLK_5:
                     map = new Map("mapTiles", 25);
-                    map->LoadMap("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/map_5.txt", 20, 25);
+                    map->LoadMap("Resources/map_5.txt", 20, 25);
                     isPause=false;
                     stage=stage+1;
                     Mix_HaltChannel(0);
@@ -582,19 +582,19 @@ void Game::render(){
     SDL_RenderClear(renderer);
     if(isPause==true){
         if(winner==1){
-            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Pacman_Won.png");
+            SDL_Texture* tex = TextureManager::LoadTexture("Resources/Pacman_Won.png");
             SDL_RenderCopy(renderer, tex, NULL, NULL);
         }
         else if(winner==2){
-            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Blinky_Won.jpg");
+            SDL_Texture* tex = TextureManager::LoadTexture("Resources/Blinky_Won.jpg");
             SDL_RenderCopy(renderer, tex, NULL, NULL);
         }
         else if(stage==4){
-            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Draw_Match.png");
+            SDL_Texture* tex = TextureManager::LoadTexture("Resources/Draw_Match.png");
             SDL_RenderCopy(renderer, tex, NULL, NULL);
         }
         else{
-            SDL_Texture* tex = TextureManager::LoadTexture("/Users/ujjwalsankhwar/Desktop/MyGame/Resources/Background.jpg");
+            SDL_Texture* tex = TextureManager::LoadTexture("Resources/Background.jpg");
             SDL_RenderCopy(renderer, tex, NULL, NULL);
         }
         if(stage==0){

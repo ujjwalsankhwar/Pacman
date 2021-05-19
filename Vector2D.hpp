@@ -2,7 +2,6 @@
 //  Vector2D.hpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 30/04/21.
 //
 
 #ifndef Vector2D_hpp

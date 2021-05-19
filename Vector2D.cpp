@@ -2,7 +2,6 @@
 //  Vector2D.cpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 30/04/21.
 //
 
 #include "Vector2D.hpp"

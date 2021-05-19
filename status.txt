@@ -1,0 +1,3 @@
+Compile and Running : Game compiles and runs as we want
+
+Although we could not implement sockets but still we implemented a multiplayer functionality with both the players playing on the same keyboard but with different sets of keys for movement.

@@ -2,7 +2,6 @@
 //  Collision.cpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 30/04/21.
 //
 
 #include "Collision.hpp"

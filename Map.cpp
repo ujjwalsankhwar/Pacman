@@ -2,7 +2,6 @@
 //  Map.cpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 29/04/21.
 //
 
 #include "Map.hpp"

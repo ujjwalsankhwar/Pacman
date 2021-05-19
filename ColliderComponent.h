@@ -2,7 +2,6 @@
 //  ColliderComponent.h
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 30/04/21.
 //
 
 #ifndef ColliderComponent_h

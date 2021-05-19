@@ -2,7 +2,6 @@
 //  main.cpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 29/04/21.
 //
 
 #include <iostream>
@@ -19,7 +18,7 @@ int main(int argc, const char * argv[]) {
     int frameTime;
     
     game = new Game();
-    game->init("My Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 500, 575, false);
+    game->init("Pacman vs Blinky", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 500, 575, false);
     while(game->running()){
         frameStart = SDL_GetTicks();
         

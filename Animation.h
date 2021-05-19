@@ -2,7 +2,6 @@
 //  Animation.h
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 01/05/21.
 //
 
 #ifndef Animation_h

@@ -2,7 +2,6 @@
 //  GameObject.hpp
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 29/04/21.
 //
 
 #ifndef GameObject_hpp

@@ -2,7 +2,6 @@
 //  UILabel.h
 //  MyGame
 //
-//  Created by Ujjwal Sankhwar on 18/05/21.
 //
 
 #ifndef UILabel_h
