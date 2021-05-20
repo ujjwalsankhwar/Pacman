@@ -24,7 +24,7 @@ Processor : 2 GHz Quad-Core Intel Core i5
 RAM : 16 GB 3733 MHz LPDDR4X
 Graphics : Intel Iris Plus Graphics 1536 MB
 
-### OS Details Windows 10 
+### Windows 10 
 Processor : Intel(R) Core(TM) i5-10210U CPU @1.60Ghz 2.11GHz 
 RAM : 8.00GB
 Graphics : Intel(R) UHD Graphics
