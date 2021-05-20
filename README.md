@@ -17,6 +17,14 @@ To compile the C++ files and generate an executable
 ``` SDL_ttf ```
 ``` SDL_mixer ```
 
+## OS Details
+
+### MacOS Big Sur
+Processor : 2 GHz Quad-Core Intel Core i5
+RAM : 16 GB 3733 MHz LPDDR4X
+Graphics : Intel Iris Plus Graphics 1536 MB
+
+
 ## Resources 
 
 ``` Let's Make Games ```
