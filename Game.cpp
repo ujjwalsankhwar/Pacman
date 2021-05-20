@@ -63,12 +63,12 @@ Mix_Chunk* intro;
 Mix_Chunk* intermission;
 Mix_Chunk* death;
 
-Uint32 reset=0;
-int stage=0;
-int winner=0;
-int netScore=0;
-int currScore=0;
-int maxPoints=100;
+Uint32 reset=0;     //to reset the timer of a round
+int stage=0;        //to store the stage number of game
+int winner=0;       //to store winner of the match
+int netScore=0;     //difference of aggregate scores
+int currScore=0;    //score in the current round
+int maxPoints=100;  //maximum achievable points
 int counter=0;
 
 Game::Game(){
