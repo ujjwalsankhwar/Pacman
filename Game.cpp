@@ -68,7 +68,7 @@ int stage=0;        //to store the stage number of game
 int winner=0;       //to store winner of the match
 int netScore=0;     //difference of aggregate scores
 int currScore=0;    //score in the current round
-int maxPoints=100;  //maximum achievable points
+int maxPoints=50;  //maximum achievable points
 int counter=0;
 
 Game::Game(){
